@@ -198,7 +198,7 @@ Return the response STRICTLY as a JSON object matching this structure:
 Do not include any wrapping markdown blocks (like \`\`\`json) or additional text in your response. Return raw JSON only.
 `;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -226,7 +226,50 @@ Do not include any wrapping markdown blocks (like \`\`\`json) or additional text
       throw new Error('Received an empty response from Gemini API.');
     }
 
-    return JSON.parse(responseText.trim());
+    // Robust JSON parsing: extract the JSON object using brace matching
+    const extractJson = (str) => {
+      const startIndex = str.indexOf('{');
+      if (startIndex === -1) return str;
+      
+      let braceCount = 0;
+      let inString = false;
+      let escape = false;
+      
+      for (let i = startIndex; i < str.length; i++) {
+        const char = str[i];
+        if (escape) {
+          escape = false;
+          continue;
+        }
+        if (char === '\\') {
+          escape = true;
+          continue;
+        }
+        if (char === '"') {
+          inString = !inString;
+          continue;
+        }
+        if (!inString) {
+          if (char === '{') {
+            braceCount++;
+          } else if (char === '}') {
+            braceCount--;
+            if (braceCount === 0) {
+              return str.substring(startIndex, i + 1);
+            }
+          }
+        }
+      }
+      
+      const lastBrace = str.lastIndexOf('}');
+      if (lastBrace !== -1 && lastBrace > startIndex) {
+        return str.substring(startIndex, lastBrace + 1);
+      }
+      return str;
+    };
+
+    const cleanText = extractJson(responseText);
+    return JSON.parse(cleanText);
   };
 
   const handleCompare = async () => {

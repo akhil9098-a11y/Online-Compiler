@@ -222,6 +222,103 @@ echo "Hello, World!"
 # read name
 # echo "Hello, $name!"
 `
+  },
+  {
+    id: 'sql',
+    name: 'SQL (SQLite)',
+    wandboxCompiler: 'sqlite-3.46.1',
+    monacoLanguage: 'sql',
+    extension: 'sql',
+    boilerplate: `-- SQL (SQLite) Template
+-- Create a table and insert some values
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    role TEXT DEFAULT 'developer'
+);
+
+INSERT INTO users (name, role) VALUES ('Alice', 'Admin');
+INSERT INTO users (name, role) VALUES ('Bob', 'Developer');
+INSERT INTO users (name) VALUES ('Charlie');
+
+-- Select all users
+SELECT * FROM users;
+`
+  },
+  {
+    id: 'csharp',
+    name: 'C#',
+    wandboxCompiler: 'mono-6.12.0.199',
+    monacoLanguage: 'csharp',
+    extension: 'cs',
+    boilerplate: `// C# Template
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello, World!");
+        
+        // Read from Stdin example:
+        // string name = Console.ReadLine();
+        // Console.WriteLine($"Hello, {name}!");
+    }
+}
+`
+  },
+  {
+    id: 'kotlin',
+    name: 'Kotlin',
+    wandboxCompiler: 'kotlin',
+    monacoLanguage: 'kotlin',
+    extension: 'kt',
+    boilerplate: `// Kotlin Template
+fun main() {
+    println("Hello, World!")
+    
+    // Read from Stdin example:
+    // val name = readLine()
+    // println("Hello, $name!")
+}
+`
+  },
+  {
+    id: 'matlab',
+    name: 'Matlab / Octave',
+    wandboxCompiler: 'matlab',
+    monacoLanguage: 'matlab',
+    extension: 'm',
+    boilerplate: `% Matlab / Octave Template
+disp('Hello, World!');
+
+% Create a matrix
+A = [1, 2; 3, 4];
+B = [5, 6; 7, 8];
+
+% Matrix multiplication
+C = A * B;
+disp('Matrix Multiplication Result (A * B):');
+disp(C);
+`
+  },
+  {
+    id: 'perl',
+    name: 'Perl',
+    wandboxCompiler: 'perl-5.40.0',
+    monacoLanguage: 'perl',
+    extension: 'pl',
+    boilerplate: `# Perl Template
+use strict;
+use warnings;
+
+print "Hello, World!\\n";
+
+# Read from Stdin example:
+# my $name = <STDIN>;
+# chomp($name);
+# print "Hello, $name!\\n";
+`
   }
 ];
 
